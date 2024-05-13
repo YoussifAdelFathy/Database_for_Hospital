@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <title>Nurses Table</title>
+  <link rel="icon" href="{{ url_for('static', filename='img/favicon.png') }}">
+  <link rel="apple-touch-icon" href="{{ url_for('static', filename='img/apple-touch-icon.png') }}">
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+  <link href="{{ url_for('static', filename='vendor/fontawesome-free/css/all.min.css') }}" rel="stylesheet">
+  <link href="{{ url_for('static', filename='vendor/animate.css/animate.min.css') }}" rel="stylesheet">
+  <link href="{{ url_for('static', filename='vendor/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
+  <link href="{{ url_for('static', filename='vendor/bootstrap-icons/bootstrap-icons.css') }}" rel="stylesheet">
+  <link href="{{ url_for('static', filename='vendor/glightbox/css/glightbox.min.css') }}" rel="stylesheet">
+  <link href="{{ url_for('static', filename='vendor/remixicon/remixicon.css') }}" rel="stylesheet">
+  <link href="{{ url_for('static', filename='vendor/swiper/swiper-bundle.min.css') }}" rel="stylesheet">
+  <link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet">
+
+
+<!-- <head> -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nurses Table</title>
+  <style>
+        .title-container {
+      text-align: center;
+      margin: 20px 0;
+    }
+
+    h1 {
+      color: #3498db;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f4f4f4;
+    }
+
+    header {
+      background-color: #3498db;
+      color: #fff;
+      text-align: center;
+      padding: 1em
+    }
+
+    nav {
+      background-color: #2c3e50;
+      color: #fff;
+      text-align: center;
+      padding: 0.5em;
+    }
+
+    nav a {
+      color: #fff;
+      text-decoration: none;
+      padding: 1em;
+      margin: 0 1em;
+    }
+
+    nav a:hover {
+      background-color: #34495e;
+    }
+
+    section {
+      padding: 2em;
+    }
+
+    footer {
+      background-color: #34495e;
+      color: #fff;
+      text-align: center;
+      position: fixed;
+      bottom: 0;
+      width: 100%;
+
+    }
+
+    .tabs {
+      display: flex;
+      justify-content: space-around;
+      margin-bottom: 1em;
+    }
+
+    .tab-content {
+      display: none;
+    }
+
+    input {
+      width: 80%;
+      padding: 0.5em;
+      margin-bottom: 1em;
+    }
+
+    button {
+      background-color: #3498db;
+      color: #fff;
+      padding: 0.5em 1em;
+      border: none;
+      cursor: pointer;
+      margin-right: 1em;
+    }
+
+    button:hover {
+      background-color: #2980b9;
+    }
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+    }
+
+    th, td {
+        border: 1px solid #ddd;
+        padding: 8px;
+        text-align: left;
+    }
+
+    th {
+        background-color: #f2f2f2;
+    }
+
+    .add {
+        width: 10%;
+        padding: 0.5em;
+        margin-bottom: 1em;
+    }
+  </style>
+
+
+
+</head>
+
+
+
+<body>
+
+
+
+  <div class="title-container">
+    <h1>Nurses Table</h1>
+  </div>
+
+
+
+  <div id="table-container" style="display: block;">
+    <input type="text" id="searchInput" onkeyup="searchNurse()" placeholder="Search by name ">
+    <div id="nursesTable">
+      <input class="add" type="text" id="nurseid" placeholder="Nurse ID">
+      <input class="add" type="text" id="fname" placeholder="First Name">
+      <input class="add" type="text" id="lname" placeholder="Last Name">
+      <input class="add" type="text" id="dateofbirth" placeholder="Date of Birth">
+      <input class="add" type="text" id="salary" placeholder="Salary">
+      <input class="add" type="text" id="gender" placeholder="Gender">
+      <input class="add" type="text" id="shifttiming" placeholder="Shift Timing">
+      <button onclick="addNurse()">Add</button>
+      <button onclick="removeNurse()">Remove</button>
+    </div>
+    <table id="nurseTable">
+      <thead>
+        <tr>
+          <th>Nurse ID</th>
+          <th>First Name</th>
+          <th>Last Name</th>
+          <th>Date of Birth</th>
+          <th>Salary</th>
+          <th>Gender</th>
+          <th>Shift Timing</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for nurse in nurses %}
+        <tr>
+          <td>{{ nurse.NurseID }}</td>
+          <td>{{ nurse.Fname }}</td>
+          <td>{{ nurse.Lname }}</td>
+          <td>{{ nurse.DateOfBirth }}</td>
+          <td>{{ nurse.Salary }}</td>
+          <td>{{ nurse.Gender }}</td>
+          <td>{{ nurse.ShiftTiming }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  
+
+
+  
+  <script>
+    function showNurse() {
+        var tableContainer = document.getElementById("table-container");
+        var tableContainer2 = document.getElementById("table-container2");
+        var tableContainer3 = document.getElementById("nursesTable");
+        tableContainer3.style.display = "none";
+        tableContainer.style.display = "block";
+        tableContainer2.style.display = "none";
+    }
+
+    function searchNurse() {
+        var input, filter, table, tr, td, i, txtValue;
+        input = document.getElementById("searchInput");
+        filter = input.value.toUpperCase();
+        table = document.getElementById("nurseTable");
+        tr = table.getElementsByTagName("tr");
+
+        for (i = 0; i < tr.length; i++) {
+            td = tr[i].getElementsByTagName("td")[1]; // Change index based on the column you want to search
+            if (td) {
+                txtValue = td.textContent || td.innerText;
+                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                    tr[i].style.display = "";
+                } else {
+                    tr[i].style.display = "none";
+                }
+            }
+        }
+    }
+
+    function addNurse() {
+        var nurseid = document.getElementById("nurseid");
+        var fname = document.getElementById("fname");
+        var lname = document.getElementById("lname");
+        var dateofbirth = document.getElementById("dateofbirth");
+        var salary = document.getElementById("salary");
+        var gender = document.getElementById("gender");
+        var shifttiming = document.getElementById("shifttiming");
+        salary.value = parseFloat(salary.value);
+
+        fetch('/add_nurse', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                NurseID: nurseid.value,
+                Fname: fname.value,
+                Lname: lname.value,
+                DateOfBirth: dateofbirth.value,
+                Salary: salary.value,
+                Gender: gender.value,
+                ShiftTiming: shifttiming.value,
+            })
+        }).then(function (response) {
+            return response.json();
+        }).then(function (jsonResponse) {
+            console.log(jsonResponse);
+        });
+    }
+
+    function removeNurse() {
+        // Prompt the user for the nurse ID
+        var nurseId = prompt("Enter the Nurse ID to remove:");
+
+        // Check if the user entered a nurse ID and proceed with removal
+        if (nurseId !== null && nurseId !== "") {
+            // Perform a confirmation dialog before removing the nurse
+            var confirmation = confirm("Are you sure you want to remove this nurse?");
+
+            if (confirmation) {
+                // Make a fetch or AJAX request to the server to remove the nurse
+                fetch('/remove_nurse', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        nurseId: nurseId
+                    })
+                }).then(function (response) {
+                    return response.json();
+                }).then(function (jsonResponse) {
+                    console.log(jsonResponse);
+
+                    // Optionally, update the UI or perform other actions based on the server response
+                });
+            }
+        } else {
+            // Handle case where the user did not enter a nurse ID
+            alert("Please enter a valid Nurse ID.");
+        }
+    }
+</script>
+
+  
+
+
+  <!-- Vendor JS Files -->
+  <script src="assets/vendor/purecounter/purecounter_vanilla.js"></script>
+  <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="assets/vendor/glightbox/js/glightbox.min.js"></script>
+  <script src="assets/vendor/swiper/swiper-bundle.min.js"></script>
+  <script src="assets/vendor/php-email-form/validate.js"></script>
+
+  <!-- Template Main JS File -->
+  <script src="assets/js/main.js"></script>
+
+</body>
+
+</html>
